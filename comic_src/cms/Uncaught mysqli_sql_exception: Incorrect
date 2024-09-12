@@ -1,0 +1,1 @@
+ Uncaught mysqli_sql_exception: Incorrect datetime value: '' for column 'start_date' at row 1 in /var/www/html/cms/chapterEdit.php:50

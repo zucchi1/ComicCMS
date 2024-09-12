@@ -1,0 +1,5 @@
+---
+- name: Change default nginx site #最初はけして！
+  become: yes
+  template: src=default dest=/etc/nginx/sites-available/default
+  notify: restart nginx

@@ -1,0 +1,24 @@
+---
+- name: Update apt cache
+  become: yes
+  apt: 
+    update_cache: yes
+
+- name: Add MySQL user 'brightech' and set password
+  become: yes
+  mysql_user:
+    login_user: root
+    login_password: root  # ルートユーザーのパスワード
+    name: brightech  # 作成する新しいユーザー名
+    password: brightech  # 新しいユーザーのパスワード
+    host: localhost  # 新しいユーザーがアクセス可能なホスト
+    priv: "*.*:ALL"  # 新しいユーザーに付与する権限（例: 全権限）
+    state: present
+
+- name: Create MySQL database 'test'
+  become: yes
+  mysql_db:
+    login_user: root
+    login_password: root  # ルートユーザーのパスワード
+    name: test  # 作成するデータベース名
+    state: present

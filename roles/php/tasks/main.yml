@@ -1,0 +1,55 @@
+---
+- name: Update apt
+  become: yes
+  apt: update_cache=yes
+
+- name: Install PHP
+  become: yes
+  apt: pkg=php state=latest
+
+- name: Install PHP-FPM
+  become: yes
+  apt: pkg=php-fpm state=latest
+
+- name: Install PHP-mbstring
+  become: yes
+  apt: pkg=php-mbstring state=latest
+
+- name: Install PHP-mysqli
+  become: yes
+  apt: pkg=php-mysqli state=latest
+
+# - name: Create index.php
+#   become: yes
+#   template:
+#     src: index.php
+#     dest: /var/www/html
+#   notify: restart nginx
+
+# - name: Create login.php
+#   become: yes
+#   template:
+#     src: login.php
+#     dest: /var/www/html
+#   notify: restart nginx
+
+# - name: Create logout.php
+#   become: yes
+#   template:
+#     src: logout.php
+#     dest: /var/www/html
+#   notify: restart nginx
+
+# - name: Create newUser.php
+#   become: yes
+#   template:
+#     src: newUser.php
+#     dest: /var/www/html
+#   notify: restart nginx
+
+# - name: Create controllers folder
+#   become: yes
+#   copy:
+#     src: /Users/brightech/intern2024/roles/php/templates/controllers
+#     dest: /var/www/html
+#   notify: restart nginx
