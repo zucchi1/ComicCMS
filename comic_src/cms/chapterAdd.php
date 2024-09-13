@@ -1,6 +1,7 @@
 <?php
 session_start();
 $mysqli = new mysqli('localhost', 'brightech', 'brightech', 'test');
+$id = $_GET['id'];
 
 // 接続状況の確認
 if ($mysqli->connect_error) {
@@ -10,6 +11,7 @@ if ($mysqli->connect_error) {
     $mysqli->set_charset('utf8');
 }
 
+
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         $id = $_GET['id'];
@@ -17,14 +19,19 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo "タイトルIDが指定されていません";
             exit;
         }
+
+        if($_GET['status']){
+            echo "現在以降の時刻を入力して下さい.<br />現在の日本時刻: " .date('Y-m-d H:i:s');
+        }
+        break;
     case 'POST':
         if (isset($_POST["name"])) {
             // POSTリクエストが送信されたときにだけ以下の処理を実行する
             $id = htmlspecialchars($_POST['id'], ENT_QUOTES, "UTF-8");
             if(!empty($_POST["start_date"]) && $_POST["start_date"]<date('Y-m-d H:i:s')){
                 //公開日時に未来の時刻が入力されてされている場合メッセージ表示
-                echo "現在以降の時刻を入力して下さい.<br />現在の日本時刻: " .date('Y-m-d H:i:s');
-                exit;
+                // header("Location: chapterAdd?id={$id}");
+                header("Location: chapterAdd?id={$id}&status=error");
             } else {
                 if (!empty($_POST["name"])) {
                     $name = htmlspecialchars($_POST["name"], ENT_QUOTES, "UTF-8");
@@ -52,6 +59,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             // 切断
             $mysqli->close();
         }
+        break;
 }
 ?>
 <!DOCTYPE html>
@@ -68,6 +76,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
     <div class="container mx-auto mt-10">
         <div class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-lg">
             <h2 class="text-3xl font-semibold text-center text-gray-800">[マンガID:<?= $id ?>]のチャプタ追加</h2>
+                    <!-- メッセージ表示 -->
+        <?php
+        if (isset($_GET['message'])) {
+            echo '<div class="mb-4 text-center text-green-500 font-semibold">' . htmlspecialchars($_GET['message'], ENT_QUOTES, 'UTF-8') . '</div>';
+        } elseif (isset($_GET['error'])) {
+            echo '<div class="mb-4 text-center text-red-500 font-semibold">' . htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8') . '</div>';
+        }
+        ?>
             <form action="chapterAdd" method="post" class="mt-6">
                 <!-- マンガIDを隠してPOSTに渡す -->
                 <input type="hidden" name="id" value="<?=$_GET['id'] ?>" readonly />
@@ -86,7 +102,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 </div>
 
                 <div class="text-center">
-                    <button type="submit" name="id" value="<?=$_GET['id'] ?>"
+                    <button type="submit" name="id" value="<?=$id ?>"
                         class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-red-300">
                         新規追加
                     </button>
