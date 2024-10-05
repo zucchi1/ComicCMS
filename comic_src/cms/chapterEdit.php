@@ -16,6 +16,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo "タイトルIDが指定されていません";
             exit;
         }
+        if($_GET['status']){
+            echo "現在以降の時刻を入力して下さい.<br />現在の日本時刻: " .date('Y-m-d H:i:s');
+        }
         // デフォルトの変数の読み込み
         $sql = "SELECT * FROM mst_chapters WHERE id = ?";
         $stmt = $mysqli->prepare($sql);
@@ -28,17 +31,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $name_def = $row["name"];
         $start_date_def = $row["start_date"];
         $mysqli->close();
+        break;
 
     case 'POST':
         if (isset($_POST["chapter_id"]) && isset($_POST["name"]) && isset($_POST["start_date"])) {
             // POSTリクエストが送信されたときにだけ以下の処理を実行する
+            $chapter_id = htmlspecialchars($_POST['chapter_id'], ENT_QUOTES, "UTF-8");
             if(!empty($_POST["start_date"]) && $_POST["start_date"]<date('Y-m-d H:i:s')){
                 //公開日時に未来の時刻が入力されてされている場合メッセージ表示
-                echo "現在以降の時刻を入力して下さい.<br />現在の日本時刻: " .date('Y-m-d H:i:s');
-                exit;
+                header("Location: chapterEdit?id={$chapter_id}&status=error");
             } else {
                 if (!empty($_POST["chapter_id"]) && !empty($_POST["name"])) {
-                    $chapter_id = htmlspecialchars($_POST["chapter_id"], ENT_QUOTES, "UTF-8");
                     $name = htmlspecialchars($_POST["name"], ENT_QUOTES, "UTF-8");
                     $start_date = htmlspecialchars($_POST["start_date"], ENT_QUOTES, "UTF-8");
                     // データベースにデータの変更点を反映
@@ -108,7 +111,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
                 <!-- チャプタIDをPOST渡すためHIDDENにしている-->
                 <input type="hidden" name="chapter_id" value="<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>" readonly />
-                <!-- まんがID をPOST渡すためにマンガIDをHIDDENにしている-->
+                <!-- まんがID をPOST渡すためにマンガIDをHIDDENにしている(chapterListへのリダイレクトに必要)-->
                 <input type="hidden" name="title_id" value="<?php echo htmlspecialchars($title_id_def, ENT_QUOTES, 'UTF-8'); ?>" required />
                 <!--
                 チャプタの名前<br/> <input type="text" name="name" value="<?php echo htmlspecialchars($name_def, ENT_QUOTES, 'UTF-8'); ?>" required /><br />

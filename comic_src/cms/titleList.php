@@ -72,5 +72,9 @@ $mysqli->close();
 </head>
     <form action="logout" method="post">
 	<button type="submit" class="px-3 py-2 text-xs font-medium text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800" name="submit" value="clicked">ログアウト</button>
-    </form><br/>
+    </form>
+    <form action="newUser" method="get">
+	<button type="submit" class="px-3 py-2 text-xs font-medium text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-lg text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800" name="submit" value="clicked">管理者追加</button>
+    </form>
+    <br/>
 </html>

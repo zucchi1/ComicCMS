@@ -7,7 +7,7 @@ echo '<div class="text-center mb-6">
         <form action="chapterAdd" method="get">
             <button type="submit" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-700 dark:hover:bg-red-800 dark:focus:ring-red-800" name="id" value="'.$id.'">新規追加</button>
         </form>
-        <form action="titleList" method="post">
+        <form action="titleList" method="get">
             <button type="submit" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-gray-600 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:bg-gray-700 dark:hover:bg-gray-800 dark:focus:ring-gray-800">マンガ一覧に戻る</button>
         </form>
         </div>';
